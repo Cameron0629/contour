@@ -67,8 +67,7 @@ struct ProfileView: View {
     @State private var showingEditProfile = false
     
     // Placeholder views needed for compilation
-    struct CreateScanView: View { var body: some View { Text("Create Scan View") } }
-    struct ModelView: View { var body: some View { Text("3D Model View") } }
+ 
 
     var body: some View {
         // Removed the outer NavigationView since it's now wrapped by NavigationStack in MainTabView

@@ -4,6 +4,9 @@ import SwiftUI
 
 
 struct MainTabView: View {
+    // 1. Receive the binding (to be used for logging out)
+    @Binding var isLoggedIn: Bool
+    
     // State to manage which tab is currently selected (defaults to Dashboard)
     @State private var selectedTab: Tab = .dashboard
 
@@ -57,10 +60,9 @@ struct MainTabView: View {
             }
             
             // 4. Profile Tab
-            // Note: ProfileView already contains a NavigationView, but for consistency
-            // and to allow deep linking within the tab, we wrap it in a NavigationStack.
             NavigationStack {
                 ProfileView()
+                // To add logout: ProfileView(isLoggedIn: $isLoggedIn)
             }
             .tag(Tab.profile)
             .tabItem {
@@ -70,6 +72,7 @@ struct MainTabView: View {
             // 5. Settings Tab
             NavigationStack {
                 SettingsView()
+                // To add logout: SettingsView(isLoggedIn: $isLoggedIn)
             }
             .tag(Tab.settings)
             .tabItem {
@@ -82,6 +85,7 @@ struct MainTabView: View {
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView()
+        // 2. Fix the preview by providing a "constant" binding
+        MainTabView(isLoggedIn: .constant(true))
     }
 }
