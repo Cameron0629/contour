@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7EB6CE6C2EC6FC5900E6221A /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7EB6CE6B2EC6FC5900E6221A /* ARKit.framework */; };
 		7EF7B46D2EC06A6C00EE4EDC /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7EF7B46C2EC06A6C00EE4EDC /* FirebaseAnalytics */; };
 		7EF7B46F2EC06A6C00EE4EDC /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 7EF7B46E2EC06A6C00EE4EDC /* FirebaseAuth */; };
 		7EF7B4712EC06A6C00EE4EDC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7EF7B4702EC06A6C00EE4EDC /* FirebaseDatabase */; };
@@ -15,12 +16,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7EB6CE6B2EC6FC5900E6221A /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
 		7EF7B4592EC0573200EE4EDC /* Contour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Contour.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7EB6CE702EC6FE4500E6221A /* Exceptions for "Contour" folder in "Contour" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7EF7B4582EC0573200EE4EDC /* Contour */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7EF7B45B2EC0573200EE4EDC /* Contour */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7EB6CE702EC6FE4500E6221A /* Exceptions for "Contour" folder in "Contour" target */,
+			);
 			path = Contour;
 			sourceTree = "<group>";
 		};
@@ -31,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EB6CE6C2EC6FC5900E6221A /* ARKit.framework in Frameworks */,
 				7EF7B4712EC06A6C00EE4EDC /* FirebaseDatabase in Frameworks */,
 				7EF7B4732EC06A6C00EE4EDC /* FirebaseFirestore in Frameworks */,
 				7EF7B46D2EC06A6C00EE4EDC /* FirebaseAnalytics in Frameworks */,
@@ -42,10 +58,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7EB6CE6A2EC6FC5900E6221A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7EB6CE6B2EC6FC5900E6221A /* ARKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		7EF7B4502EC0573200EE4EDC = {
 			isa = PBXGroup;
 			children = (
 				7EF7B45B2EC0573200EE4EDC /* Contour */,
+				7EB6CE6A2EC6FC5900E6221A /* Frameworks */,
 				7EF7B45A2EC0573200EE4EDC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -275,11 +300,16 @@
 				DEVELOPMENT_TEAM = 4YFH2VXX5K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Contour/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "To take pics for 3d model";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -307,11 +337,16 @@
 				DEVELOPMENT_TEAM = 4YFH2VXX5K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Contour/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "To take pics for 3d model";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

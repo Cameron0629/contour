@@ -10,7 +10,7 @@ struct EditProfileView: View {
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 // ... (rest of your EditProfileView body code) ...
                 Section(header: Text("Profile Picture")) {
@@ -66,15 +66,93 @@ struct EditProfileView: View {
 
 // 2. ProfileView begins here (with the updated bindings)
 struct ProfileView: View {
-    // ... (Your @State variables and the rest of the ProfileView code) ...
     @State private var username: String = "ExampleUser"
     @State private var bio: String = "..."
     @State private var showingEditProfile = false
     @State private var modelURL: URL? // The new binding
     
     var body: some View {
-        // ... (rest of ProfileView using the bindings) ...
-        // ... (Make sure to update NavigationLinks to pass $modelURL)
+        ScrollView {
+            VStack(spacing: 20) {
+                // Profile Picture Section
+                VStack(spacing: 10) {
+                    Circle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: 120, height: 120)
+                        .overlay(
+                            Image(systemName: "person.crop.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .foregroundColor(.gray)
+                        )
+                    
+                    Text(username)
+                        .font(.title)
+                        .fontWeight(.bold)
+                    
+                    Text(bio)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                }
+                .padding(.top, 20)
+                
+                // Action Buttons
+                VStack(spacing: 15) {
+                    NavigationLink(destination: CreateScanView(modelURL: $modelURL)) {
+                        HStack {
+                            Image(systemName: "camera.viewfinder")
+                            Text("Create New Scan")
+                        }
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.contourPurple)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                    }
+                    
+                    NavigationLink(destination: ModelView(modelURL: $modelURL)) {
+                        HStack {
+                            Image(systemName: "cube.fill")
+                            Text("View 3D Model")
+                        }
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.contourBlue)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                    }
+                }
+                .padding(.horizontal)
+                
+                // Edit Profile Button
+                Button {
+                    showingEditProfile = true
+                } label: {
+                    HStack {
+                        Image(systemName: "pencil")
+                        Text("Edit Profile")
+                    }
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .foregroundColor(.primary)
+                    .cornerRadius(12)
+                }
+                .padding(.horizontal)
+                
+                Spacer()
+            }
+            .padding()
+        }
+        .navigationTitle("Profile")
+        .sheet(isPresented: $showingEditProfile) {
+            EditProfileView()
+        }
     }
 }
-// ...
