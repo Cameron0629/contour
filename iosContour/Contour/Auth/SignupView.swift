@@ -1,38 +1,44 @@
 import SwiftUI
 
 struct SignupView: View {
+    @State private var name = ""
+    @State private var email = ""
+    @State private var password = ""
+    
     var body: some View {
         VStack(spacing: 20) {
             Text("Sign Up")
                 .font(.title)
                 .fontWeight(.bold)
 
-            TextField("Name", text: .constant(""))
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-
-            TextField("Email", text: .constant(""))
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-
-            SecureField("Password", text: .constant(""))
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-
-            Button("Create Account") {
-                // Placeholder
+            VStack(spacing: 15) {
+                TextField("Name", text: $name)
+                    .textFieldStyle(.roundedBorder)
+                
+                TextField("Email", text: $email)
+                    .textFieldStyle(.roundedBorder)
+                    .autocapitalization(.none)
+                    .keyboardType(.emailAddress)
+                
+                SecureField("Password", text: $password)
+                    .textFieldStyle(.roundedBorder)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.contourPurple)
+            .padding(.horizontal)
+
+            Button("Create Account") {}
+                .buttonStyle(.borderedProminent)
+                .tint(.contourPurple)
 
             Spacer()
         }
         .padding()
+        .navigationTitle("Sign Up")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
-struct SignupView_Previews: PreviewProvider {
-    static var previews: some View {
+#Preview {
+    NavigationStack {
         SignupView()
     }
 }

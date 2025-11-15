@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct BrowseClothingView: View {
-    @State private var selectedItem: ClothingItem? = nil
-    @State private var showOverlay: Bool = false
+    @State private var selectedItem: ClothingItem?
+    @State private var showOverlay = false
 
     struct ClothingItem: Identifiable {
         let id: Int
@@ -12,7 +12,7 @@ struct BrowseClothingView: View {
         let cost: String
     }
 
-    let items: [ClothingItem] = [
+    private let items: [ClothingItem] = [
         ClothingItem(id: 1, name: "T-Shirt", brand: "Contour Co.", size: "M", cost: "$25"),
         ClothingItem(id: 2, name: "Jeans", brand: "Denim Brand", size: "32", cost: "$45"),
         ClothingItem(id: 3, name: "Jacket", brand: "Outerwear", size: "L", cost: "$75"),
@@ -25,150 +25,119 @@ struct BrowseClothingView: View {
         ClothingItem(id: 10, name: "Scarf", brand: "WinterWarm", size: "One Size", cost: "$15")
     ]
 
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
+    private let columns = [GridItem(.flexible()), GridItem(.flexible())]
 
     var body: some View {
         ZStack {
             ScrollView {
-                VStack(spacing: 20) {
-                    Text("Browse Clothing")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.primary)
-                        .padding(.top, 10) // Adjustment for being inside a NavStack
-
-                    LazyVGrid(columns: columns, spacing: 20) {
-                        ForEach(items) { item in
-                            VStack(spacing: 5) {
-                                VStack(spacing: 5) {
-                                    Rectangle()
-                                        .fill(Color.contourBlue.opacity(0.2))
-                                        .frame(height: 120)
-                                        .cornerRadius(10)
-                                        .overlay(
-                                            Text(item.name)
-                                                .foregroundColor(.primary)
-                                                .fontWeight(.bold)
-                                        )
-
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        Text(item.name)
-                                            .font(.headline)
-                                            .foregroundColor(.primary)
-                                        Text("Brand: \(item.brand)")
-                                            .font(.subheadline)
-                                            .foregroundColor(.primary)
-                                        Text("Size: \(item.size)")
-                                            .font(.subheadline)
-                                            .foregroundColor(.primary)
-                                        Text("Cost: \(item.cost)")
-                                            .font(.subheadline)
-                                            .foregroundColor(.green)
-                                    }
-                                    .padding(5)
-                                }
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.gray, lineWidth: 1)
-                                )
-                            }
-                            .onTapGesture {
-                                selectedItem = item
-                                showOverlay = true
-                            }
+                LazyVGrid(columns: columns, spacing: 20) {
+                    ForEach(items) { item in
+                        ClothingCard(item: item) {
+                            selectedItem = item
+                            showOverlay = true
                         }
                     }
-                    .padding()
                 }
-                .frame(maxWidth: .infinity) // Ensures content fills the width
+                .padding()
             }
 
-            // Overlay popup
             if showOverlay, let item = selectedItem {
-                Color.black.opacity(0.4)
-                    .ignoresSafeArea()
-
-                VStack {
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            showOverlay = false
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .font(.title)
-                                .foregroundColor(.white)
-                        }
-                    }
-                    .padding()
-
-                    Spacer()
-
-                    // Popup card with adaptive background
-                    VStack(spacing: 0) {
-                        VStack(spacing: 5) {
-                            Rectangle()
-                                .fill(Color.contourBlue.opacity(0.2))
-                                .frame(height: 240) // Enlarged placeholder
-                                .cornerRadius(10)
-                                .overlay(
-                                    Text(item.name)
-                                        .foregroundColor(.primary)
-                                        .fontWeight(.bold)
-                                        .font(.title)
-                                )
-
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(item.name)
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.primary)
-                                Text("Brand: \(item.brand)")
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-                                Text("Size: \(item.size)")
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-                                Text("Cost: \(item.cost)")
-                                    .font(.headline)
-                                    .foregroundColor(.green)
-                            }
-                            .padding(5)
-                        }
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.gray, lineWidth: 1)
-                        )
-                        .padding()
-                    }
-                    .background(
-                        RoundedRectangle(cornerRadius: 15)
-                            .fill(Color(.systemBackground)) // Adaptive background
-                            .shadow(radius: 10)
-                    )
-                    .padding()
-                    .frame(maxWidth: 350)
-
-                    Spacer()
-                }
+                overlayView(item: item)
             }
         }
         .animation(.easeInOut, value: showOverlay)
         .navigationTitle("Browse Clothing")
     }
-}
+    
+    private func overlayView(item: ClothingItem) -> some View {
+        ZStack {
+            Color.black.opacity(0.4)
+                .ignoresSafeArea()
+                .onTapGesture {
+                    showOverlay = false
+                }
 
-struct BrowseClothingView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            Group {
-                BrowseClothingView()
-                    .preferredColorScheme(.light)
-                BrowseClothingView()
-                    .preferredColorScheme(.dark)
+            VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        showOverlay = false
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.title)
+                            .foregroundColor(.white)
+                    }
+                }
+                .padding()
+
+                Spacer()
+
+                ClothingCard(item: item, isLarge: true)
+                    .frame(maxWidth: 350)
+                    .background(
+                        RoundedRectangle(cornerRadius: 15)
+                            .fill(Color(.systemBackground))
+                            .shadow(radius: 10)
+                    )
+                    .padding()
+
+                Spacer()
             }
         }
+    }
+}
+
+struct ClothingCard: View {
+    let item: BrowseClothingView.ClothingItem
+    let isLarge: Bool
+    let action: () -> Void
+    
+    init(item: BrowseClothingView.ClothingItem, isLarge: Bool = false, action: @escaping () -> Void = {}) {
+        self.item = item
+        self.isLarge = isLarge
+        self.action = action
+    }
+    
+    var body: some View {
+        VStack(spacing: 5) {
+            Rectangle()
+                .fill(Color.contourBlue.opacity(0.2))
+                .frame(height: isLarge ? 240 : 120)
+                .cornerRadius(10)
+                .overlay(
+                    Text(item.name)
+                        .foregroundColor(.primary)
+                        .fontWeight(.bold)
+                        .font(isLarge ? .title : .body)
+                )
+
+            VStack(alignment: .leading, spacing: isLarge ? 4 : 2) {
+                Text(item.name)
+                    .font(isLarge ? .title2 : .headline)
+                    .fontWeight(isLarge ? .bold : .regular)
+                    .foregroundColor(.primary)
+                Text("Brand: \(item.brand)")
+                    .font(isLarge ? .headline : .subheadline)
+                    .foregroundColor(.primary)
+                Text("Size: \(item.size)")
+                    .font(isLarge ? .headline : .subheadline)
+                    .foregroundColor(.primary)
+                Text("Cost: \(item.cost)")
+                    .font(isLarge ? .headline : .subheadline)
+                    .foregroundColor(.green)
+            }
+            .padding(5)
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.gray, lineWidth: 1)
+        )
+        .onTapGesture(perform: action)
+    }
+}
+
+#Preview {
+    NavigationStack {
+        BrowseClothingView()
     }
 }
